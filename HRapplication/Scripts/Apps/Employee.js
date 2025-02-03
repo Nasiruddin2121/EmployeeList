@@ -78,82 +78,33 @@ App.controller('EmployeeListCtrl', function ($scope, $http) {
                 // Handle error
             });
     };
+    $scope.Delete = function () {
+        var employeeID = $scope.employeeID;  // Get the employee ID to delete
 
-    // Start ng-Grid-2
-    $scope.filterOptions = {
-        finterText: "",
-        useExternalFinter: true
-    };
-    $scope.totalServerItems = 0;
-    $scope.pagingOptions = {
-        pageSizes: [10, 15, 20],
-        pageSize: 10,
-        currentPage: 1
-    };
-    $scope.setPagingData = function (data, page, pageSize) {
-        var pagedData = data.slice((page - 1) * pageSize, page * pageSize);
-        $scope.myData = pagedData;
-        $scope.totalServerItems = data.length;
-        if (!$scope.$$phase) {
-            $scope.$apply();
-        }
-    };
-
-    $scope.getPagedDataAsync = function (pageSize, page, searchText) {
-        setTimeout(function () {
-            var data;
-            if (searchText) {
-                var ft = searchText.toLowerCase();
-                $http.get('/api/Bank/GetAll').success(function (largeLoad) {
-                    data = largeLoad.filter(function (item) {
-                        return JSON.stringify(item).toLowerCase().indexOf(ft) != -1;
-                    });
-                    $scope.setPagingData(data, page, pageSize);
-                });
-            }
-            else {
-                $http.get('/api/Bank/GetAll').success(function (largeLoad) {
-                    $scope.setPagingData(largeLoad, page, pageSize);
-                });
-            }
-        }, 100);
+        // Make an HTTP DELETE request to delete the employee by ID
+        $http.delete('/api/Employee/Delete/' + employeeID)
+            .success(function (data) {
+                if (data > 0) {  // Check if the delete operation was successful
+                    alert('Employee with ID ' + employeeID + ' has been deleted.');
+                    // Optionally, reset or refresh your UI here
+                    $scope.firstName = '';
+                    $scope.lastName = '';
+                    $scope.Division = '';
+                    $scope.Building = '';
+                    $scope.Title = '';
+                    $scope.Room = '';
+                    $scope.employeeID = '';
+                    $scope.buttonText = "Create";  // Reset button text to 'Create' after delete
+                } else {
+                    alert('Failed to delete employee with ID ' + employeeID);
+                }
+            })
+            .error(function (error) {
+                alert('Error deleting employee: ' + error);
+            });
     };
 
-    $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage);
-
-    $scope.$watch('pagingOptions', function (newVal, oldVal) {
-        if (newVal != oldVal && newVal.currentPage != oldVal.currentPage) {
-            $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
-        }
-    }, true);
-    $scope.$watch('filterOptions', function (newVal, oldVal) {
-        if (newVal !== oldVal) {
-            $scope.getPagedDataAsync($scope.pagingOptions.pageSize, $scope.pagingOptions.currentPage, $scope.filterOptions.filterText);
-        }
-    }, true);
-
-    $scope.PartyItemsgridOption = {
-        data: 'myData',
-        enablePaging: true,
-        showFooter: true,
-        totalServerItems: 'totalServerItems',
-        pagingOptions: $scope.pagingOptions,
-        filterOptions: $scope.filterOptions,
-        enableCellSelection: true,
-        selectedIems: $scope.selectedRow,
-        multiSelect: false,
-        columnDefs:
-         [
-            { field: 'Edit', width: 40, cellTemplate: '<button ng-click=edit(row.entity); style="margin-left:10px"><img src=../Images/edit.gif /></button>' },
-            { field: 'Delete', width: 65, cellTemplate: '<button ng-click=delete(row.entity)><img src=../Images/delete.gif /></button>', visible: false },
-            { field: 'BankID', displayName: 'Bank ID', width: 120, visible: false },
-            { field: 'BankName', displayName: 'Bank Name', enableCellEdit: true, width: 450 },
-            { field: 'CompanyID', displayName: 'Company ID', enableCellEdit: true, width: 400, visible: false },
-            { field: 'Note', displayName: 'Note', enableCellEdit: true, width: 550 },
-            { field: 'Creator', displayName: 'Creator', enableCellEdit: true, width: 150, visible: false },
-            { field: 'CreationDate', displayName: 'Creation Date', enableCellEdit: true, width: 120, cellFilter: 'date:\'dd/MM/yyyy\'', visible: false }
-         ]
-    };
+    
     //End ng-Grid-2
     $scope.edit = function (row) {
         $http.get('/api/Employee/GetByID/' + row.employeeID).success(function (data) {

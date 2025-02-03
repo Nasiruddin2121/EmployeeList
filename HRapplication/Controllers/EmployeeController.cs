@@ -86,6 +86,14 @@ namespace HRapplication.Controllers
             }
         }
 
+        [Route("Delete/{ID:int}")]
+        [HttpDelete]  // Ensure the HTTP method is DELETE
+        public Int32 Delete(int ID)
+        {
+            return context.ListEmployesses.Delete(ID);
+        }
+
+
         [HttpPost]
         [Route("api/employees/upload")]
         public IHttpActionResult UploadEmployees()
