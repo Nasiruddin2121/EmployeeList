@@ -1,0 +1,122 @@
+﻿
+@{
+    ViewBag.Title = "EmployeeList";
+}
+
+<style>
+    .gridStyle {
+        border: 1px solid rgb(212,212,212);
+        width: 1044px;
+        height: 415px;
+        margin-top: 15px;
+        margin-left: -350px;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="box">
+            <div class="box-header blue-background">
+                <div class="title">
+                    Employee List
+                </div>
+                <div class="actions">
+                    <a href="#" class="btn box-remove btn-xs btn-link">
+                        <i class="icon-remove"></i>
+                    </a>
+                    <a href="#" class="btn box-collapse btn-xs btn-link">
+                        <i></i>
+                    </a>
+                </div>
+            </div>
+            <div class="box-content">
+                <form ng-app="eEmployeeApp" ng-controller="EmployeeListCtrl" accept-charset="UTF-8" class="form form-horizontal">
+                    <div class="container">
+                        @*<div class="form-group">
+                                <label class="col-md-3 control-label">Bank ID</label>
+                                <div class="col-md-9">
+                                    <input type="number" ng-model="BankID" placeholder="Bank ID can not be empty" class="form-control" />
+                                </div>
+                            </div>*@
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">First Name<span style="color:red">*</span></label>
+                            <div class="col-md-9">
+                                <input type="text" ng-model="firstName" autocomplete="off" id="firstName" placeholder="Can not be empty" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Last Name<span style="color:red">*</span></label>
+                            <div class="col-md-9">
+                                <input type="text" ng-model="lastName" autocomplete="off" id="lastName" placeholder="Can not be empty" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Division<span style="color:red">*</span></label>
+                            <div class="col-md-9">
+                                <input type="text" ng-model="Division" autocomplete="off" id="Division" placeholder="Can not be empty" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Building<span style="color:red">*</span></label>
+                            <div class="col-md-9">
+                                <input type="text" ng-model="Building" autocomplete="off" id="Building" placeholder="Can not be empty" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Title</label>
+                            <div class="col-md-9">
+                                <textarea ng-model="Title" id="Title" placeholder="Note can be empty" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Room<span style="color:red">*</span></label>
+                            <div class="col-md-9">
+                                <input type="text" ng-model="Room" autocomplete="off" id="Room" placeholder="Can not be empty" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions form-actions-padding-sm">
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-4">
+                                <button type="button" class="btn btn-primary" ng-click="Save()">
+                                    <i class="icon-save"></i>
+                                    Save
+                                </button>
+                                <button type="button" class="btn btn-primary" ng-click="Update()">
+                                    <i class="img-fluid"></i>
+                                    Update
+                                </button>
+                                @*<button type="button" class="btn btn-info" ng-click="Search()">
+                                        <i class="icon-search"></i>
+                                        Search
+                                    </button>*@
+                                <button type="reset" ng-click="ClearAll()" class="btn">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="row">
+                            <div class="col-md-10 col-md-offset-4">
+                                <button type="button" class="btn btn-primary" onclick="location.href='https://doc-10-1o-docs.googleusercontent.com/docs/securesc/lc2s4aprpboij12ccbk2s1mikg02mui9/e2vrqdgmfasa5suph7pakc9spo2lkot0/1545026400000/11247031482937898516/06570797494658333558/1v9kg4ehAGRi2eVTego6kJPRVZCZ-cY6Q?e=download'" value="Download APK">
+                                    Download
+                                </button>
+                            </div>
+                        </div>*@
+                    <div class="form-group" style="margin-top:20px;">
+                        <label for="inputText1" class="col-md-9 control-label">Search</label>
+                        <div class="col-lg-3">
+                            <input type="text" class="form-control" placeholder="Search Bank" ng-model="filterOptions.filterText" />
+                        </div>
+                    </div>
+                    <div class="table-responsive" style=" margin-bottom:10px; margin-left:350px">
+                        <div class="gridStyle" ng-grid="PartyItemsgridOption"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.7.1.js"></script>
+<script src="~/Scripts/angular.js"></script>
+<script src="~/Scripts/Module.js"></script>
+<script src="~/Scripts/ng-grid.js"></script>
+<script src="~/Scripts/Apps/Employee.js"></script>
